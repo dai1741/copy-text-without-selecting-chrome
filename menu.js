@@ -19,8 +19,8 @@
                 var url = "vscode://file/" + event.target.getAttribute("data-caller_filename") +
                     ":" + event.target.getAttribute("data-caller_lineno") + ":0";
 
+                highlightElement(event.target);
                 window.location.href = url;
-                // copyCommand(event.target);
                 event.preventDefault();
             }
         }
@@ -34,10 +34,7 @@
         });
     };
 
-    function copyCommand(clickedElement){
-        var text = getText(clickedElement.firstChild, "\r\n");
-        copy(text.trim());
-        
+    function highlightElement(clickedElement){
         var rect = clickedElement.getBoundingClientRect();
         var frame = document.createElement("div");
         frame.style.position = "absolute";
@@ -54,21 +51,5 @@
         $(frame).fadeIn(300, "swing").delay(500).fadeOut(500, "swing");
         
         // console.log(text.trim());
-    }
-
-    function copy(text){
-        var textArea = document.createElement("textarea");
-        textArea.style.cssText = "position: absolute; left: -100%;";
-
-        try{
-            document.body.appendChild(textArea);
-
-            textArea.value = text;
-            textArea.select();
-        
-            document.execCommand("copy");
-        }finally{
-            document.body.removeChild(textArea);
-        }
     }
 })();
