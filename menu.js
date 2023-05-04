@@ -13,8 +13,16 @@
         if((event.altKey && metaKey == "Alt")
             || (event.ctrlKey && metaKey == "Ctrl")
             || (event.shiftKey && metaKey == "Shift")) { 
-            copyCommand(event.target);
-            event.preventDefault();
+            if(event.target.hasAttribute("data-caller_filename")
+                && event.target.hasAttribute("data-caller_lineno")) {
+                // debug filename & lineno info found!
+                var url = "vscode://file/" + event.target.getAttribute("data-caller_filename") +
+                    ":" + event.target.getAttribute("data-caller_lineno") + ":0";
+
+                window.location.href = url;
+                // copyCommand(event.target);
+                event.preventDefault();
+            }
         }
     }, false);
 
